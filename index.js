@@ -28,20 +28,16 @@ const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 app.get("/api/:date", function(req, res) {
-  let isUnix = false;
-  const firstDate = new Date(req.params.date);
-  if(isNaN(firstDate)) {
-    const alternativeDate = new Date(Number(req.params.date));
-    if(isNaN(alternativeDate)) {
-      res.json({error: "Invalid Date"})
+  let date = new Date(req.params.date);
+  if (date.getTime() !== date.getTime()) {
+    if(isNaN(req.params.date)) {
+      res.json({error: "Invalid Date"});
     } else {
-      isUnix = true;
+      console.log("Valid Date");
+      date = new Date(Number(req.params.date));
     }
-  }
-  if(isUnix) {
-    date = new Date(Number(req.params.date));
   } else {
-    date = new Date(req.params.date);
+    console.log("Valid Date");
   }
   const unixData = date.getTime();
   const utcYear = date.getUTCFullYear();
