@@ -53,6 +53,22 @@ app.get("/api/:date", function(req, res) {
   res.json({unix: unixData, utc: utcData});
 });
 
+app.get("/api/", function(req,res) {
+  let date = new Date();
+  const unixData = date.getTime();
+  const utcYear = date.getUTCFullYear();
+  const utcMonth = date.getUTCMonth(); 
+  const utcDay = date.getUTCDate();
+  const utcDayNum = date.getUTCDay();
+  const utcHour = date.getUTCHours();
+  const utcMinute = date.getUTCMinutes();
+  const utcSecond = date.getUTCSeconds();
+  const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
+   utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
+   ":" + String(utcSecond).padStart(2,'0') + " GMT"; 
+  res.json({unix: unixData, utc: utcData});
+});
+
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
