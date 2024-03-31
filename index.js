@@ -28,40 +28,6 @@ app.get("/api/hello", function (req, res) {
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-app.get("/api/:date?", function(req, res) {
-  console.log(req.url);
-  let dateParam = req.params.date;
-  let response = {};
-  
-  if (!dateParam || dateParam.trim() === '') {
-    dateParam = new Date(); 
-  } else {
-    dateParam = new Date(dateParam);
-    if (isNaN(dateParam)) {
-      response = {error: "Invalid Date"};
-      return res.json(response);
-    }
-  }
-   
-  console.log(dateParam.getTime());
-  const unixData = dateParam.getTime();
-  const utcYear = dateParam.getUTCFullYear();
-  const utcMonth = dateParam.getUTCMonth(); 
-  const utcDay = dateParam.getUTCDate();
-  const utcDayNum = dateParam.getUTCDay();
-  const utcHour = dateParam.getUTCHours();
-  const utcMinute = dateParam.getUTCMinutes();
-  const utcSecond = dateParam.getUTCSeconds();
-  const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
-   utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
-   ":" + String(utcSecond).padStart(2,'0') + " GMT";
-  
-  response = {unix: unixData, utc: utcData};
-  console.log(response);
-  res.json(response);
-});
-
-/*
 
 app.get("/api/:date?", function(req, res) {
   console.log(req.url);
@@ -102,7 +68,7 @@ app.get("/api/:date?", function(req, res) {
   res.json(response);
 });
 
-*/
+
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
