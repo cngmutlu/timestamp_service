@@ -30,15 +30,17 @@ const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "S
 
 app.get("/api/:date", function(req, res) {
   let date = new Date(req.params.date);
+  let invalidFlag = false;
+  let response = {};
   if (date.getTime() !== date.getTime()) {
     if(isNaN(req.params.date)) {
-      res.json({error: "Invalid Date"});
+      invalidFlag = true;
     } else {
-      console.log("Valid Date");
+      console.log("Valid Date" + req.params.date);
       date = new Date(Number(req.params.date));
     }
   } else {
-    console.log("Valid Date");
+    console.log("Valid Date" + req.params.date);
   }
   const unixData = date.getTime();
   const utcYear = date.getUTCFullYear();
@@ -51,7 +53,12 @@ app.get("/api/:date", function(req, res) {
   const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
    utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
    ":" + String(utcSecond).padStart(2,'0') + " GMT"; 
-  res.json({unix: unixData, utc: utcData});
+   if(invalidFlag) {
+    response = {error: "Invalid Date"};
+   } else {
+    response = {unix: unixData, utc: utcData};
+   }
+  res.json(response);
 });
 
 app.get("/api/", function(req,res) {
