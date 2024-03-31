@@ -29,6 +29,7 @@ const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 app.get("/api/:date", function(req, res) {
+  console.log(req.params.date);
   let date = new Date(req.params.date);
   let invalidFlag = false;
   let response = {};
@@ -36,11 +37,11 @@ app.get("/api/:date", function(req, res) {
     if(isNaN(req.params.date)) {
       invalidFlag = true;
     } else {
-      console.log("Valid Date" + req.params.date);
+      //console.log("Valid Date" + req.params.date);
       date = new Date(Number(req.params.date));
     }
   } else {
-    console.log("Valid Date" + req.params.date);
+    //console.log("Valid Date" + req.params.date);
   }
   const unixData = date.getTime();
   const utcYear = date.getUTCFullYear();
