@@ -5,7 +5,6 @@
 var express = require('express');
 var app = express();
 
-const moment = require('moment');
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC 
@@ -30,10 +29,6 @@ const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 app.get("/api/:date", function(req, res) {
-  const dateString = req.params.date;
-  const momentDate = moment(dateString);
-  const date = new Date(momentDate);
-  /*
   let date = new Date(req.params.date);
   if (date.getTime() !== date.getTime()) {
     if(isNaN(req.params.date)) {
@@ -45,7 +40,6 @@ app.get("/api/:date", function(req, res) {
   } else {
     console.log("Valid Date");
   }
-  */
   const unixData = date.getTime();
   const utcYear = date.getUTCFullYear();
   const utcMonth = date.getUTCMonth(); 
