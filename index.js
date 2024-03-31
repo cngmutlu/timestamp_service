@@ -29,7 +29,42 @@ const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 app.get("/api/:date?", function(req, res) {
-  console.log(req.params.date);
+  console.log(req.url);
+  let dateParam = req.params.date;
+  let response = {};
+  
+  if (!dateParam || dateParam.trim() === '') {
+    dateParam = new Date(); 
+  } else {
+    dateParam = new Date(dateParam);
+    if (isNaN(dateParam)) {
+      response = {error: "Invalid Date"};
+      return res.json(response);
+    }
+  }
+   
+  console.log(dateParam.getTime());
+  const unixData = dateParam.getTime();
+  const utcYear = dateParam.getUTCFullYear();
+  const utcMonth = dateParam.getUTCMonth(); 
+  const utcDay = dateParam.getUTCDate();
+  const utcDayNum = dateParam.getUTCDay();
+  const utcHour = dateParam.getUTCHours();
+  const utcMinute = dateParam.getUTCMinutes();
+  const utcSecond = dateParam.getUTCSeconds();
+  const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
+   utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
+   ":" + String(utcSecond).padStart(2,'0') + " GMT";
+  
+  response = {unix: unixData, utc: utcData};
+  console.log(response);
+  res.json(response);
+});
+
+/*
+
+app.get("/api/:date?", function(req, res) {
+  console.log(req.url);
   let date = new Date(req.params.date);
   let invalidFlag = false;
   let response = {};
@@ -46,7 +81,7 @@ app.get("/api/:date?", function(req, res) {
   }
    
    if(invalidFlag) {
-    console.log(req.params.date);
+    console.log(req.url);
     response = {error: "Invalid Date"};
    } else {
     console.log(date.getTime());
@@ -63,25 +98,8 @@ app.get("/api/:date?", function(req, res) {
      ":" + String(utcSecond).padStart(2,'0') + " GMT";
     response = {unix: unixData, utc: utcData};
    }
+   console.log(response);
   res.json(response);
-});
-
-/*
-
-app.get("/api/", function(req,res) {
-  let date = new Date();
-  const unixData = date.getTime();
-  const utcYear = date.getUTCFullYear();
-  const utcMonth = date.getUTCMonth(); 
-  const utcDay = date.getUTCDate();
-  const utcDayNum = date.getUTCDay();
-  const utcHour = date.getUTCHours();
-  const utcMinute = date.getUTCMinutes();
-  const utcSecond = date.getUTCSeconds();
-  const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
-   utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
-   ":" + String(utcSecond).padStart(2,'0') + " GMT"; 
-  res.json({unix: unixData, utc: utcData});
 });
 
 */
