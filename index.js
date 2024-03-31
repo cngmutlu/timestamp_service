@@ -59,7 +59,7 @@ app.get("/api/:date?", function(req, res) {
     const utcHour = date.getUTCHours();
     const utcMinute = date.getUTCMinutes();
     const utcSecond = date.getUTCSeconds();
-    const utcData = daysOfWeek[utcDayNum] + ", " + utcDay + " " + monthsOfYear[utcMonth] + " " +
+    const utcData = daysOfWeek[utcDayNum] + ", " + String(utcDay).padStart(2,'0') + " " + monthsOfYear[utcMonth] + " " +
      utcYear +  " " + String(utcHour).padStart(2,'0') + ":" + String(utcMinute).padStart(2,'0') + 
      ":" + String(utcSecond).padStart(2,'0') + " GMT";
     response = {unix: unixData, utc: utcData};
